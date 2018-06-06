@@ -1,11 +1,14 @@
 package com.benz.find.benz;
 
+import android.app.Activity;
 import android.app.Application;
+import android.app.Application.ActivityLifecycleCallbacks;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Build;
+import android.os.Bundle;
 import android.provider.Settings;
 import android.telephony.TelephonyManager;
 
@@ -13,7 +16,10 @@ import java.io.UnsupportedEncodingException;
 import java.util.Locale;
 import java.util.UUID;
 
-public class MyApplication extends Application {
+public class MyApplication extends Application implements ActivityLifecycleCallbacks {
+
+    private static boolean isForeground;//是否在前台
+    private int activityCount;//activity的count数
 
     public static MyApplication THIS;
 
@@ -111,4 +117,44 @@ public class MyApplication extends Application {
         return uuid;
     }
 
+    // Activity 生命周期
+
+    @Override
+    public void onActivityCreated(Activity activity, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityStarted(Activity activity) {
+        activityCount++;
+        isForeground = true;
+    }
+
+    @Override
+    public void onActivityResumed(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityPaused(Activity activity) {
+
+    }
+
+    @Override
+    public void onActivityStopped(Activity activity) {
+        activityCount--;
+        if (0 == activityCount) {
+            isForeground = false;
+        }
+    }
+
+    @Override
+    public void onActivitySaveInstanceState(Activity activity, Bundle bundle) {
+
+    }
+
+    @Override
+    public void onActivityDestroyed(Activity activity) {
+
+    }
 }
