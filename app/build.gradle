@@ -19,6 +19,7 @@ android {
 }
 
 ext {
+    supportLibraryVersion = '26.1.0'
     retrofitVersion = '2.1.0'
     rxjavaVersion = '1.2.1'
     okhttpVersion = '3.4.2'
@@ -26,8 +27,9 @@ ext {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation "com.android.support:appcompat-v7:$supportLibraryVersion"
     implementation 'com.android.support.constraint:constraint-layout:1.1.0'
+    compile "com.android.support:recyclerview-v7:$supportLibraryVersion"
     implementation 'org.jsoup:jsoup:1.11.3'
 
     implementation "com.squareup.retrofit2:retrofit:$retrofitVersion"
