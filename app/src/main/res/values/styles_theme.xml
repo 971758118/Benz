@@ -1,0 +1,45 @@
+<resources>
+
+    <style name="MyTheme" parent="Theme.AppCompat.Light">
+        <!--<item name="colorPrimary">@color/My_bg_title</item>-->
+        <!--<item name="colorPrimaryDark">@color/My_bg_content</item>-->
+        <!--<item name="colorAccent">@color/My_text_selected_blue</item>-->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/white</item>
+        <item name="android:windowActionBar">false</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:screenOrientation">portrait</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="android:actionBarSize">56dp</item>
+        <item name="android:textColorPrimary">@color/textColorPrimary</item>
+        <item name="android:windowBackground">@color/windowBackground</item>
+    </style>
+
+
+    <style name="MyTranslate" parent="MyTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowAnimationStyle">@android:style/Animation.InputMethod</item>
+    </style>
+
+    <style name="MyOnlyTranslate" parent="MyTheme">
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="MyNoAnimation" parent="MyTranslate">
+        <item name="android:windowAnimationStyle">@null</item>
+    </style>
+
+    <style name="MyTranslateAndNoAnimation" parent="MyTranslate">
+        <item name="android:windowAnimationStyle">@null</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
+    <style name="MyFullScreen" parent="MyTheme">
+
+    </style>
+
+</resources>
