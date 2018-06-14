@@ -5,12 +5,9 @@
     android:layout_height="match_parent"
     tools:context=".BeautyRecyclerFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:id="@+id/txView"
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/beauty_recycler_fragment_recycler"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent"/>
 
 </FrameLayout>

@@ -25,3 +25,10 @@ allprojects {
 task clean(type: Delete) {
     delete rootProject.buildDir
 }
+
+ext {
+    supportLibraryVersion = '27.1.1'
+    retrofitVersion = '2.1.0'
+    rxjavaVersion = '1.2.1'
+    okhttpVersion = '3.4.2'
+}
