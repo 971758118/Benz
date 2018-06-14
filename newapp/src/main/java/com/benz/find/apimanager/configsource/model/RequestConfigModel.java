@@ -24,4 +24,9 @@ public class RequestConfigModel {
         return map;
     }
 
+    public Map<String, Object> setTag(String Tag) {
+        map.put("Tag", Tag);
+        return map;
+    }
+
 }

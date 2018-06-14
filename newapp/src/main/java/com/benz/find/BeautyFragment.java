@@ -12,7 +12,9 @@ import android.view.ViewGroup;
 
 import com.benz.find.adapter.MyTabLayoutAdapter;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -22,6 +24,8 @@ public class BeautyFragment extends Fragment {
     private List<String> mTabTitles;
     private List<Fragment> mFragments;
     private Context mContext;
+    private String[] titles = {"丝袜", "美腿", "气质", "古风", "性感", "可爱", "制服"};
+    private String[] tags = {"10000", "10001", "10002", "10003", "10004", "10005", "10006"};
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -29,14 +33,7 @@ public class BeautyFragment extends Fragment {
         mContext = getContext();
         mFragments = new ArrayList<>();
         mTabTitles = new ArrayList<>();
-        mTabTitles.add("妹子1");
-        mTabTitles.add("妹子2");
-        mTabTitles.add("妹子3");
-        mTabTitles.add("妹子4");
-        mTabTitles.add("妹子5");
-        mTabTitles.add("妹子6");
-        mTabTitles.add("妹子7");
-        mTabTitles.add("妹子8");
+        mTabTitles.addAll(Arrays.asList(titles));
     }
 
     @Override
@@ -55,7 +52,7 @@ public class BeautyFragment extends Fragment {
         for (int i = 0; i < mTabTitles.size(); i++) {
             BeautyRecyclerFragment fragment = new BeautyRecyclerFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("ID", "-->" + i);
+            bundle.putString("Tag", tags[i]);
             fragment.setArguments(bundle);
             mFragments.add(fragment);
             mTabLayout.addTab(mTabLayout.newTab().setText(mTabTitles.get(i)));

@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.benz.find.apimanager.ApiService;
+import com.benz.find.apimanager.configsource.model.RequestConfigModel;
 import com.benz.find.apimanager.network.RESTfulFactory;
 import com.benz.find.entity.MeituEntity;
 import com.benz.find.entity.MeituItems;
@@ -33,8 +34,6 @@ import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
 import rx.schedulers.Schedulers;
 
-import static com.benz.find.apimanager.configsource.ConfigRequest.getConfigRequest;
-
 
 /**
  * A simple {@link Fragment} subclass.
@@ -43,10 +42,12 @@ public class BeautyRecyclerFragment extends Fragment {
     private final String TAG = this.getClass().getSimpleName();
     private RecyclerView mRecyclerView;
     private Adapter mAdapter;
+    private String Tag;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Tag = getArguments().getString("Tag");
     }
 
 
@@ -62,7 +63,7 @@ public class BeautyRecyclerFragment extends Fragment {
 
     private void getData() {
         RESTfulFactory.getInstance().createJson(ApiService.class)
-                .loadMeitu(getConfigRequest())
+                .loadMeitu(new RequestConfigModel().setTag(Tag))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<JSONObject>() {
@@ -95,6 +96,7 @@ public class BeautyRecyclerFragment extends Fragment {
                         }
                     }
                 });
+
     }
 
     private class Adapter extends RecyclerView.Adapter<ViewHolder> {
