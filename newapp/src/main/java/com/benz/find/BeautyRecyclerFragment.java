@@ -33,6 +33,8 @@ import java.util.List;
 
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action1;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 
@@ -66,38 +68,28 @@ public class BeautyRecyclerFragment extends Fragment {
     private void getData() {
         RESTfulFactory.getInstance().createJson(ApiService.class)
                 .getPicture(new PictureConfigModel().setTag(Tag).getOptions())
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<JSONObject>() {
+                .map(new Func1<JSONObject, List<MeituEntity>>() {
                     @Override
-                    public void onCompleted() {
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.i(TAG, "---log---onError>" + e.getMessage());
-                    }
-
-                    @Override
-                    public void onNext(JSONObject jsonObject) {
-                        List<MeituEntity> poseResEntityList = new ArrayList<>();
+                    public List<MeituEntity> call(JSONObject jsonObject) {
+                        Type listType = new TypeToken<ArrayList<MeituEntity>>() {
+                        }.getType();
                         try {
-                            Type listType = new TypeToken<ArrayList<MeituEntity>>() {
-                            }.getType();
-                            Gson gson = new Gson();
-                            poseResEntityList = gson.fromJson(jsonObject.getString("data"), listType);
-                            mAdapter = new Adapter(poseResEntityList);
-                            mRecyclerView.setAdapter(mAdapter);
-//                            for (int i = 0; i < poseResEntityList.size(); i++) {
-//                                Log.i(TAG, "---log---poseResEntityList>" + poseResEntityList.get(i).toString());
-//                            }
+                            return new Gson().fromJson(jsonObject.getString("data"), listType);
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                        return null;
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Action1<List<MeituEntity>>() {
+                    @Override
+                    public void call(List<MeituEntity> meituEntities) {
+                        mAdapter = new Adapter(meituEntities);
+                        mRecyclerView.setAdapter(mAdapter);
                     }
                 });
-
     }
 
     private void test() {
