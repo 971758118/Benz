@@ -17,6 +17,7 @@ import com.benz.find.apimanager.ApiService;
 import com.benz.find.apimanager.configsource.model.ArticleConfigModel;
 import com.benz.find.apimanager.configsource.model.PictureConfigModel;
 import com.benz.find.apimanager.network.RESTfulFactory;
+import com.benz.find.entity.DuanziEntity;
 import com.benz.find.entity.MeituEntity;
 import com.benz.find.entity.MeituItems;
 import com.benz.find.utils.picasso.PicassoUtils;
@@ -58,6 +59,7 @@ public class BeautyRecyclerFragment extends Fragment {
         mRecyclerView = rootView.findViewById(R.id.beauty_recycler_fragment_recycler);
         mRecyclerView.setLayoutManager(new GridLayoutManager(getActivity(), 2, GridLayoutManager.VERTICAL, false));
         getData();
+//        test();
         return rootView;
     }
 
@@ -118,20 +120,19 @@ public class BeautyRecyclerFragment extends Fragment {
                     public void onNext(JSONObject jsonObject) {
                         Log.i(TAG, "---log---onNext>" + jsonObject);
 
-//                        List<MeituEntity> poseResEntityList = new ArrayList<>();
-//                        try {
-//                            Type listType = new TypeToken<ArrayList<MeituEntity>>() {
-//                            }.getType();
-//                            Gson gson = new Gson();
-//                            poseResEntityList = gson.fromJson(jsonObject.getString("data"), listType);
-//                            mAdapter = new Adapter(poseResEntityList);
-//                            mRecyclerView.setAdapter(mAdapter);
-//                            for (int i = 0; i < poseResEntityList.size(); i++) {
-//                                Log.i(TAG, "---log---poseResEntityList>" + poseResEntityList.get(i).toString());
-//                            }
-//                        } catch (JSONException e) {
-//                            e.printStackTrace();
-//                        }
+                        List<DuanziEntity> entities = new ArrayList<>();
+                        try {
+                            Type listType = new TypeToken<ArrayList<DuanziEntity>>() {
+                            }.getType();
+                            Gson gson = new Gson();
+                            entities = gson.fromJson(jsonObject.getString("data"), listType);
+
+                            for (int i = 0; i < entities.size(); i++) {
+                                Log.i(TAG, "---log---entities>" + entities.get(i).toString());
+                            }
+                        } catch (JSONException e) {
+                            e.printStackTrace();
+                        }
                     }
                 });
 
