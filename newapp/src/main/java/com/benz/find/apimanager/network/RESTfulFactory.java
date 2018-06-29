@@ -1,12 +1,17 @@
 package com.benz.find.apimanager.network;
 
 
-
 import com.benz.find.MyApplication;
 
+import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import okhttp3.HttpUrl;
+import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
 import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
@@ -18,10 +23,19 @@ import rx.schedulers.Schedulers;
 
 
 public class RESTfulFactory {
-    public static final String API = "https://apic.51wnl.com/";
+
+    public static final String HEADER_KEY = "url_name";
+    public static final String HEADER_VALUE_PIC = "picture";
+    public static final String HEADER_VALUE_ART = "article";
+    public static final String HEADER_VALUE_THREE = "three";
+    public static final String BASE_URL_PIC = "https://apic.51wnl.com/";
+    public static final String BASE_URL_ART = "https://r.51wnl.com/api/News/GetInfiniteInfos/";
+    public static final String BASE_URL_THREE = "https://www.333.com/";
+
+    public static final String DEFAULT_RUL = "https://apic.51wnl.com/";
     //api地址
     //Todo 添加debug切换
-    private final static String BASE_URL = API;
+    private final static String BASE_URL = DEFAULT_RUL;
     private final static int DEFAULT_TIMEOUT = 5;
     private final static Integer CODE_SUCCESS = 1;
 
@@ -39,6 +53,38 @@ public class RESTfulFactory {
             httpClientBuilder.addInterceptor(interceptor);
         }
         httpClientBuilder.connectTimeout(DEFAULT_TIMEOUT, TimeUnit.SECONDS);
+        httpClientBuilder.addInterceptor(new Interceptor() {
+            @Override
+            public Response intercept(Chain chain) throws IOException {
+                Request request = chain.request();
+                HttpUrl oldHttpUrl = request.url();
+                Request.Builder builder = request.newBuilder();
+                List<String> headerValues = request.headers(HEADER_KEY);
+                if (headerValues != null && headerValues.size() > 0) {
+                    builder.removeHeader(HEADER_KEY);
+                    String headerValue = headerValues.get(0);
+                    HttpUrl newBaseUrl;
+                    if (HEADER_VALUE_PIC.equals(headerValue)) {
+                        newBaseUrl = HttpUrl.parse(BASE_URL_PIC);
+                    } else if (HEADER_VALUE_ART.equals(headerValue)) {
+                        newBaseUrl = HttpUrl.parse(BASE_URL_ART);
+                    } else if (HEADER_VALUE_THREE.equals(headerValue)) {
+                        newBaseUrl = HttpUrl.parse(BASE_URL_THREE);
+                    } else {
+                        newBaseUrl = oldHttpUrl;
+                    }
+                    HttpUrl newFullUrl = oldHttpUrl
+                            .newBuilder()
+                            .scheme(newBaseUrl.scheme())
+                            .host(newBaseUrl.host())
+                            .port(newBaseUrl.port())
+                            .build();
+                    return chain.proceed(builder.url(newFullUrl).build());
+                } else {
+                    return chain.proceed(request);
+                }
+            }
+        });
 //        httpClientBuilder.cookieJar(new CookieJar() {
 //            @Override
 //            public void saveFromResponse(HttpUrl url, List<Cookie> cookies) {

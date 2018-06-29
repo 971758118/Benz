@@ -12,10 +12,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.TextView;
 
 import com.benz.find.apimanager.ApiService;
-import com.benz.find.apimanager.configsource.model.RequestConfigModel;
+import com.benz.find.apimanager.configsource.model.PictureConfigModel;
 import com.benz.find.apimanager.network.RESTfulFactory;
 import com.benz.find.entity.MeituEntity;
 import com.benz.find.entity.MeituItems;
@@ -63,7 +62,7 @@ public class BeautyRecyclerFragment extends Fragment {
 
     private void getData() {
         RESTfulFactory.getInstance().createJson(ApiService.class)
-                .loadMeitu(new RequestConfigModel().setTag(Tag))
+                .getPicture(new PictureConfigModel().setTag(Tag).getOptions())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Subscriber<JSONObject>() {
@@ -88,9 +87,9 @@ public class BeautyRecyclerFragment extends Fragment {
                             poseResEntityList = gson.fromJson(jsonObject.getString("data"), listType);
                             mAdapter = new Adapter(poseResEntityList);
                             mRecyclerView.setAdapter(mAdapter);
-//                                    for (int i = 0; i < poseResEntityList.size(); i++) {
-//                                        Log.i(TAG, "---log---poseResEntityList>" + poseResEntityList.get(i).toString());
-//                                    }
+                            for (int i = 0; i < poseResEntityList.size(); i++) {
+                                Log.i(TAG, "---log---poseResEntityList>" + poseResEntityList.get(i).toString());
+                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
