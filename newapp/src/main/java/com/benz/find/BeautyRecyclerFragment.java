@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.benz.find.apimanager.ApiService;
+import com.benz.find.apimanager.configsource.model.ArticleConfigModel;
 import com.benz.find.apimanager.configsource.model.PictureConfigModel;
 import com.benz.find.apimanager.network.RESTfulFactory;
 import com.benz.find.entity.MeituEntity;
@@ -78,7 +79,6 @@ public class BeautyRecyclerFragment extends Fragment {
 
                     @Override
                     public void onNext(JSONObject jsonObject) {
-                        Log.i(TAG, "---log---onNext>" + jsonObject);
                         List<MeituEntity> poseResEntityList = new ArrayList<>();
                         try {
                             Type listType = new TypeToken<ArrayList<MeituEntity>>() {
@@ -87,12 +87,51 @@ public class BeautyRecyclerFragment extends Fragment {
                             poseResEntityList = gson.fromJson(jsonObject.getString("data"), listType);
                             mAdapter = new Adapter(poseResEntityList);
                             mRecyclerView.setAdapter(mAdapter);
-                            for (int i = 0; i < poseResEntityList.size(); i++) {
-                                Log.i(TAG, "---log---poseResEntityList>" + poseResEntityList.get(i).toString());
-                            }
+//                            for (int i = 0; i < poseResEntityList.size(); i++) {
+//                                Log.i(TAG, "---log---poseResEntityList>" + poseResEntityList.get(i).toString());
+//                            }
                         } catch (JSONException e) {
                             e.printStackTrace();
                         }
+                    }
+                });
+
+    }
+
+    private void test() {
+        RESTfulFactory.getInstance().createJson(ApiService.class)
+                .getArticle(new ArticleConfigModel().setChnCode("qingsongyike").getOptions())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<JSONObject>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.i(TAG, "---log---onError>" + e.getMessage());
+                    }
+
+                    @Override
+                    public void onNext(JSONObject jsonObject) {
+                        Log.i(TAG, "---log---onNext>" + jsonObject);
+
+//                        List<MeituEntity> poseResEntityList = new ArrayList<>();
+//                        try {
+//                            Type listType = new TypeToken<ArrayList<MeituEntity>>() {
+//                            }.getType();
+//                            Gson gson = new Gson();
+//                            poseResEntityList = gson.fromJson(jsonObject.getString("data"), listType);
+//                            mAdapter = new Adapter(poseResEntityList);
+//                            mRecyclerView.setAdapter(mAdapter);
+//                            for (int i = 0; i < poseResEntityList.size(); i++) {
+//                                Log.i(TAG, "---log---poseResEntityList>" + poseResEntityList.get(i).toString());
+//                            }
+//                        } catch (JSONException e) {
+//                            e.printStackTrace();
+//                        }
                     }
                 });
 

@@ -27,10 +27,10 @@ public class RESTfulFactory {
     public static final String HEADER_KEY = "url_name";
     public static final String HEADER_VALUE_PIC = "picture";
     public static final String HEADER_VALUE_ART = "article";
-    public static final String HEADER_VALUE_THREE = "three";
+    public static final String HEADER_VALUE_THREE = "";
     public static final String BASE_URL_PIC = "https://apic.51wnl.com/";
-    public static final String BASE_URL_ART = "https://r.51wnl.com/api/News/GetInfiniteInfos/";
-    public static final String BASE_URL_THREE = "https://www.333.com/";
+    public static final String BASE_URL_ART = "https://r.51wnl.com/";
+    public static final String BASE_URL_THREE = "";
 
     public static final String DEFAULT_RUL = "https://apic.51wnl.com/";
     //api地址

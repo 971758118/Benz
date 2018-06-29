@@ -23,7 +23,7 @@ public interface ApiService {
     Observable<JSONObject> getPicture(@QueryMap Map<String, Object> options);
 
     @Headers({RESTfulFactory.HEADER_KEY + ":" + RESTfulFactory.HEADER_VALUE_ART})
-    @GET()
+    @GET("api/News/GetInfiniteInfos")
     Observable<JSONObject> getArticle(@QueryMap Map<String, Object> options);
 
     @Headers({RESTfulFactory.HEADER_KEY + ":" + RESTfulFactory.HEADER_VALUE_THREE})
